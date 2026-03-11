@@ -35,11 +35,23 @@ npm install
 
 ### 2. 配置环境变量
 
-编辑 `.env` 文件，设置 MongoDB 连接：
+复制示例配置文件并修改：
+
+```bash
+# 复制示例配置文件
+cp .env.example .env
+
+# 编辑 .env 文件，设置你的 MongoDB 连接
+```
+
+`.env` 文件内容：
 
 ```env
 MONGODB_URI=mongodb://localhost:27017/test
+PORT=3001
 ```
+
+**⚠️ 重要**: `.env` 文件包含敏感信息，已在 `.gitignore` 中，不会提交到 git。
 
 ### 3. 启动服务器
 

@@ -15,6 +15,9 @@ const inventorySchema = new mongoose.Schema({
     unit: String,
     minQuantity: Number,
     expiryDate: Date,
+    location: String,  // 存放位置
+    supplier: String,  // 供应商
+    labName: String,
     labName: String,
     status: String,
     createdAt: Date,
@@ -319,7 +322,7 @@ app.get('/tools/search-inventory', async (req, res) => {
                 { specification: regex }
             ]
         })
-        .select('name quantity minQuantity expiryDate')
+        .select('name quantity minQuantity expiryDate location unit')
         .limit(parseInt(limit))
         .lean();
 
@@ -339,6 +342,8 @@ app.get('/tools/search-inventory', async (req, res) => {
                     quantity: item.quantity,
                     minQuantity: item.minQuantity,
                     expiryDate: item.expiryDate ? item.expiryDate.toISOString().split('T')[0] : null,
+                    location: item.location || '未设置存放位置',  // ✅ 添加存放位置
+                    unit: item.unit || '',
                     status
                 };
             })
@@ -370,7 +375,7 @@ app.get('/tools/check-item', async (req, res) => {
             labName,
             name: regex
         })
-        .select('name quantity minQuantity expiryDate')
+        .select('name quantity minQuantity expiryDate location unit')
         .lean();
 
         if (items.length === 0) {
@@ -411,6 +416,8 @@ app.get('/tools/check-item', async (req, res) => {
                 quantity: item.quantity,
                 minQuantity: item.minQuantity,
                 expiryDate: item.expiryDate ? item.expiryDate.toISOString().split('T')[0] : null,
+                location: item.location || '未设置存放位置',  // ✅ 添加存放位置
+                unit: item.unit || '',
                 status,
                 statusMessage
             }
